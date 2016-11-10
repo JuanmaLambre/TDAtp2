@@ -7,7 +7,15 @@
 import pytest
 from collections import namedtuple
 
+"""  
 
+USAGE EXAMPLE:
+    graph = generateGraphMagically()
+    ff = FordFulkerson(graph)
+    ff.run()
+    maxFlow = ff.maxFlow
+
+"""
 class FordFulkerson:
 
     Tag = namedtuple('Tag', ['fromNode', 'type', 'residualCap'])
