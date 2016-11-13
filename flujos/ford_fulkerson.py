@@ -6,6 +6,7 @@
 # 
 import pytest
 from collections import namedtuple
+from digraph import *
 
 """  
 
@@ -14,6 +15,8 @@ USAGE EXAMPLE:
     ff = FordFulkerson(graph)
     ff.run()
     maxFlow = ff.maxFlow
+    minCut = ff.minCut()
+    minCutSources = ff.minCutSources()
 
 """
 class FordFulkerson:
@@ -26,6 +29,7 @@ class FordFulkerson:
         self.MAX_CAPACITIES = {edge: edge.weight for edge in graph.iter_edges()}
         self.tags = {}
         self.maxFlow = None
+        self.minCutSourceVertex = None
 
     """ Add tag to toTagNode
         Returns toTagNode if was tagged, or None if it could not be tagged """
@@ -81,9 +85,46 @@ class FordFulkerson:
             path.insert(0, next(edge for edge in self.graph.adj_e(previousNode) if edge.destination == node))
             node = previousNode
         return path, minCapacity
+    
+    """ Calculates min cut and stores it in self.minCut """
+    def _calculateMinCut(self):
+        # Construct Residual Graph from Max Flox Graph
+        residualGraph = self._generateResidualGraph()
+
+        # Do DFS from Source and mark any vertex as visited
+        visited = [False for i in xrange(residualGraph.V())]
+        residualGraph.markAsVisited(0, visited)
+
+        # Get source vertices that were visited (incluided in MIN CUT)
+        self.minCutSourceVertex = [vertex for vertex in residualGraph.adj(0) if visited[vertex]]
+
+        """
+        # Calculates MIN CUT
+        # Any Edge that has one vertex visited and other not visited
+        # is part of the MIN CUT.
+        minCut = []
+        for i in xrange(self.graph.V):
+            for j in xrange(self.graph.V):
+                if (visited[i] && !visited[j] && residualGraph.hasEdge(i, j))
+                    AGREGAR EN MIN CUT
+        """
+
+    """ Generate Residual Graph from origin graph """
+    def _generateResidualGraph(self):
+        residualGraph = Digraph(self.graph.V())
+
+        for edge, capacity in self.flows.items():
+            vertexSource = edge.source
+            vertexDestination = edge.destination
+            weight = edge.weight
+            residualGraph.add_edge(vertexSource, vertexDestination, weight - capacity)
+            residualGraph.add_edge(vertexDestination, vertexSource, capacity)
+
+        return residualGraph
 
 
-    """ Calculates maximum flow of a graph and stores it in self.maxFlow """
+    """ Calculates maximum flow of a graph and stores it in self.maxFlow.
+        Calculates min cut and stores it in self.minCut """
     def run(self):
         sinkWasReached = self._tagPath(0, self.graph.last_node()) # opposite to max flow reached
         while sinkWasReached:
@@ -96,3 +137,4 @@ class FordFulkerson:
         for edge in self.graph.adj_e(0):
             self.maxFlow += self.flows[edge]
 
+        self._calculateMinCut()

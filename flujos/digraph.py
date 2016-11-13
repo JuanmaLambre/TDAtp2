@@ -70,5 +70,16 @@ class Digraph(object):
     """
     return iter([x for e in g.edges for x in g.edges[e]])
 
+  def markAsVisited(self, originVertex, visited):
+    """ DFS algorithm that mark origin vertex as visited and apply
+        this function to adjacent vertex that are not visited and
+        its weigth is greater than zero. """
+    visited[originVertex] = True
+    for edge in self.adj_e(originVertex):
+        destinationVertex = edge.destination
+        if edge.weight > 0 and not visited[destinationVertex]:
+            self.markAsVisited(destinationVertex, visited)
+
+
 
 Edge = namedtuple('Edge', ['source', 'destination', 'weight'])

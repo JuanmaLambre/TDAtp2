@@ -183,17 +183,17 @@ class FordFulkersonTest(unittest.TestCase):
     def test_calculateSourcesIncluidedInMINCUT_GRAPH_3(self):
         fordFulkerson = ff.FordFulkerson(GRAPH_3)
         fordFulkerson.run()
-        self.assertEquals(fordFulkerson.getMinCutSources(), [3])
+        self.assertEquals(fordFulkerson.minCutSourceVertex, [3])
 
     def test_calculateSourcesIncluidedInMINCUT_GRAPH_4(self):
         fordFulkerson = ff.FordFulkerson(GRAPH_4)
         fordFulkerson.run()
-        self.assertEquals(fordFulkerson.getMinCutSources(), [2])
+        self.assertEquals(fordFulkerson.minCutSourceVertex, [2])
 
     def test_calculateSourcesIncluidedInMINCUT_GRAPH_5(self):
         fordFulkerson = ff.FordFulkerson(GRAPH_5)
         fordFulkerson.run()
-        self.assertEquals(fordFulkerson.getMinCutSources(), [3, 1])      
+        self.assertEquals(fordFulkerson.minCutSourceVertex, [3, 1])      
 
 
 if __name__ == '__main__':
