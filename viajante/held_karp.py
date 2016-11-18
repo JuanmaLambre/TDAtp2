@@ -28,7 +28,6 @@ def held_karp(dists):
     # Iterate subsets of increasing length and store intermediate results
     # in classic dynamic programming manner
     for subset_size in range(2, n):
-        print (subset_size)
         for subset in itertools.combinations(range(1, n), subset_size):
             # Set bits for all nodes in this subset
             bits = 0
