@@ -2,6 +2,7 @@ import sys
 import csv
 import os
 from bag import *
+import timeit
 
 def read_data(data):
 	"""leer_datos se encarga de leer una linea de un archivo csv, mientras lea devuelve el proximo, 
@@ -36,7 +37,12 @@ def parse_bag_file(csv_file):
 		weights = []
 		
 		line = read_data(csv_file)
-		n = int(read_data(csv_file)[0].split()[1])
+		l = read_data(csv_file)
+		try:
+			a = int(l[0].split()[1])
+		except Exception, e:
+			break
+		n = int(l[0].split()[1])
 		c = int(read_data(csv_file)[0].split()[1])
 		z = int(read_data(csv_file)[0].split()[1])
 		time = float(read_data(csv_file)[0].split()[1])
@@ -50,13 +56,18 @@ def parse_bag_file(csv_file):
 			line = read_data(csv_file)
 
 		line = read_data(csv_file)
+		#print(n, c)
 
-		optimum, elements = problema_mochila(n, c, weights, values, items)
-		print(optimum, z)
+		def problem():
+			return problema_mochila(n, c, weights, values, items)
 
-def parse():
-	with open('knapPI_1_50_1000.csv', 'rb') as f:
+		print(timeit.timeit(problem, number=1))
+		#print(optimum, z)
+
+def parse(fileName):
+	with open(fileName, 'rb') as f:
 	    reader = csv.reader(f)
 	    parse_bag_file(reader)
 
-parse()
+if __name__ == '__main__':
+	parse('../../smallcoeff_pisinger/knapPI_9_50_1000.csv')
