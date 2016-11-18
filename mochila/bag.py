@@ -4,6 +4,7 @@ def problema_mochila(nro_de_elementos,capacidad,lista_pesos,lista_valores,lista_
 	una lista con todos las ids de los elementos que componen la solucion."""
 	# Inicializo una matriz de "capacidad" filas y "nro_de_elementos" columnas con una lista
 	# que contiene un cero y una lista vacia cada posicion de la matriz.
+	print(nro_de_elementos, capacidad)
 	matriz = [[ [0,[]] for x in xrange(nro_de_elementos+1)] for x in xrange(capacidad+1)]
 	for j in xrange(1,capacidad+1): # Cada ciclo aumenta la capacidad de la mochila
 		for i in xrange(1,nro_de_elementos+1): # Cada ciclo aumenta la cantidad de elementos considerados
