@@ -70,4 +70,4 @@ def parse(fileName):
 	    parse_bag_file(reader)
 
 if __name__ == '__main__':
-	parse('../../smallcoeff_pisinger/knapPI_9_50_1000.csv')
+	parse('knapPI_16_50_1000.csv')
